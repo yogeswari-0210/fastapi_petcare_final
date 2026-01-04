@@ -1,0 +1,31 @@
+# from sqlalchemy import Column, Integer, Float, ForeignKey
+# from sqlalchemy.orm import relationship
+# from database.database import Base
+
+
+# class OrderItem(Base):
+#     __tablename__ = "order_items"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     order_id = Column(Integer, ForeignKey("orders.id"))
+#     product_id = Column(Integer)
+#     quantity = Column(Integer)
+#     price = Column(Float)
+
+#     order = relationship("Order", back_populates="items")
+from sqlalchemy import Column, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship
+from database.database import Base
+
+class OrderItem(Base):
+    __tablename__ = "order_items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    order_id = Column(Integer, ForeignKey("orders.id", ondelete="CASCADE"))
+    product_id = Column(Integer, ForeignKey("products.id", ondelete="CASCADE"))
+    quantity = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
+
+    order = relationship("Order", back_populates="items")
+    product = relationship("Product")  # optional, if you want product info in the order item
+
